@@ -5,9 +5,10 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import LoginPage from "./components/LoginPage/LoginPage";
 import { Provider } from "react-redux";
 import { store } from "./redux";
+import LoginPage from "./components/LoginPage/LoginPage";
+import MainPage, { getTableData } from "./components/MainPage/MainPage";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
         element: <Navigate to="/login" replace={true} />,
       },
       { path: "login", element: <LoginPage /> },
-      { path: "main" },
+      { path: "main", element: <MainPage />, loader: getTableData },
     ],
   },
 ]);

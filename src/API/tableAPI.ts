@@ -1,7 +1,7 @@
 import { axiosInstance, baseRequest } from ".";
 
 export const tableAPI = {
-	async getUser() {
-		return baseRequest(() => axiosInstance.get(''));
+	async getTableList() {
+		return baseRequest(() => axiosInstance.get('table/'));
 	},
 }

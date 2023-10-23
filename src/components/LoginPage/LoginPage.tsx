@@ -1,9 +1,12 @@
 import { Form, Formik } from "formik";
 import { FC, useState } from "react";
 import CustomInput from "./components/CustomInput";
-import { Button, Typography } from "@mui/material";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import styles from "./LoginPage.module.css";
 import { loginAPI } from "../../API/loginAPI";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/loginReducer";
 
 export type LoginForm = {
   username: string;
@@ -12,17 +15,25 @@ export type LoginForm = {
 
 const LoginPage: FC = () => {
   const [errors, setErrors] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const initialValues: LoginForm = {
     username: "testuser",
     password: "testpassword123",
   };
 
   const submitForm = async (formData: LoginForm) => {
-    console.log(formData)
-    const { data, status } = await loginAPI.login(formData);
-    if (status !== 200) {
-      setErrors(data.error);
+    setIsLoading(true);
+    try {
+      await loginAPI.login(formData);
+      dispatch(login(formData.username));
+      navigate("/main");
+    } catch (err: any) {
+      setErrors(err.message);
     }
+    setIsLoading(false);
   };
   return (
     <Formik initialValues={initialValues} onSubmit={submitForm}>
@@ -36,17 +47,19 @@ const LoginPage: FC = () => {
             type="password"
             required={true}
           />
-          <div>
-            <p>{errors}</p>
-          </div>
           <Button
             type="submit"
             variant="contained"
-            disabled={!isValid}
+            disabled={!isValid || isLoading}
             className={styles.logInButton}
           >
-            LOG IN
+            LOG IN {isLoading && <CircularProgress color="inherit" size={20} />}
           </Button>
+          {errors && (
+            <div className={styles.error}>
+              <p>{errors}</p>
+            </div>
+          )}
         </Form>
       )}
     </Formik>
