@@ -9,6 +9,7 @@ import { useLoaderData } from "react-router-dom";
 import { APIResponse, Contact, TableItemInfo } from "../../type";
 import { Pagination } from "@mui/material";
 import ModalForm from "../ModalForm/ModalForm";
+import Footer from "./components/Footer";
 
 export const getTableData = async () => {
   const { data } = await tableAPI.getTableList();
@@ -40,10 +41,16 @@ const MainPage: FC = () => {
     setTableData(data?.results);
   };
 
-  const submitForm = async (formData: Contact, isNew: boolean) => {
+  const submitForm = async (formData: Contact) => {
     try {
-      if (isNew) {
+      if (!initialValues.name) {
         const { data } = await tableAPI.createContact(formData);
+        setTableData([data, ...tableData]);
+      } else {
+        const { data } = await tableAPI.updateContact(
+          formData,
+          initialValues.id
+        );
         setTableData(
           tableData.map((el) => {
             if (el.id === data.id) {
@@ -52,17 +59,21 @@ const MainPage: FC = () => {
             return el;
           })
         );
-      } else {
-        const { data } = await tableAPI.updateContact(
-          formData,
-          initialFormValues.id
-        );
-        setTableData([data, ...tableData]);
       }
       setOpen(false);
       setInitialValues(initialFormValues);
     } catch (err: any) {
-      console.log(err)
+      setErrors(err);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await tableAPI.deleteContact(initialValues.id);
+      setTableData(tableData.filter((el) => el.id === initialValues.id));
+      setOpen(false);
+      setInitialValues(initialFormValues);
+    } catch (err: any) {
       setErrors(err);
     }
   };
@@ -73,7 +84,7 @@ const MainPage: FC = () => {
       <ApiTable {...{ tableData, setInitialValues, setOpen }} />
       <Pagination
         count={Math.ceil(count / 10)}
-        color="secondary"
+        color="primary"
         onChange={handlePageChange}
         sx={{ alignSelf: "flex-end" }}
       />
@@ -86,8 +97,10 @@ const MainPage: FC = () => {
           submitForm,
           setInitialValues,
           errors,
+          handleDelete,
         }}
       />
+      <Footer />
     </div>
   );
 };

@@ -19,7 +19,7 @@ type TableProps = {
 
 const ApiTable: FC<TableProps> = ({ tableData, setInitialValues, setOpen }) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{height:'80vh'}} >
       <Table stickyHeader sx={{ minWidth: 650 }}>
         <TableHead>
           <TableRow>

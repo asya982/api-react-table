@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/loginReducer";
 import { LoginForm } from "../../type";
-import { AutoAwesomeMosaicOutlined } from "@mui/icons-material";
+import { AutoAwesome } from "@mui/icons-material";
 
 const LoginPage: FC = () => {
   const [errors, setErrors] = useState("");
@@ -28,7 +28,7 @@ const LoginPage: FC = () => {
       dispatch(login(formData.username));
       navigate("/main");
     } catch (err: any) {
-      setErrors(err.message);
+      setErrors(err.error);
     }
     setIsLoading(false);
   };
@@ -36,8 +36,8 @@ const LoginPage: FC = () => {
     <Formik initialValues={initialValues} onSubmit={submitForm}>
       {({ isValid }) => (
         <Form className={styles.form}>
-          <Typography align="center">
-            Welcome back! <AutoAwesomeMosaicOutlined color="secondary" />
+          <Typography align="center" alignContent="center" variant="h5">
+            Welcome back! <AutoAwesome color="warning" />
           </Typography>
           <CustomInput label="Username" name="username" required={true} />
           <CustomInput

@@ -1,14 +1,46 @@
 .mainPage {
     display: flex;
-    height: 100vh;
     flex-direction: column;
     width: 100%;
+    min-height: 100vh;
     gap: 10px;
     padding: 10px 0;
+    justify-content: space-between;
 }
 
 .mainPage header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 10px 20px;
+    height: 10vh;
+    color: var(--primary);
+}
+
+.userInfo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer img {
+    max-width: 200px;
+    object-fit: contain;
+}
+
+.footer a {
+    text-decoration: none;
+    color: var(--dark);
+}
+
+.footer a:hover {
+    color: var(--primary)
 }

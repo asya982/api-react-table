@@ -15,6 +15,7 @@ type ModalFormProps = {
   submitForm: (...args: any[]) => Promise<any>;
   setInitialValues: (value: TableItemInfo) => void;
   errors: any;
+  handleDelete?: () => Promise<void>;
 };
 
 const ModalForm: FC<ModalFormProps> = ({
@@ -25,11 +26,13 @@ const ModalForm: FC<ModalFormProps> = ({
   setInitialValues,
   submitForm,
   errors,
+  handleDelete,
 }) => {
   const closeModal = () => {
     setInitialValues(initialFormValues);
     setOpen(false);
   };
+
   return (
     <Dialog open={open} onClose={closeModal}>
       <DialogTitle>{title}</DialogTitle>
@@ -42,14 +45,14 @@ const ModalForm: FC<ModalFormProps> = ({
         {({ isValid }) => (
           <Form className={styles.form}>
             {Object.keys(initialValues).map((key, index) => {
-              if (key === "id") return;
+              if (key === "id") return null;
               return (
                 <CustomInput
                   key={index}
                   label={key.split("_").join(" ").toUpperCase()}
                   name={key}
                   required={true}
-                  error={(errors.key && errors?.key[0]) || ""}
+                  error={errors[key] && errors[key][0]}
                 />
               );
             })}
@@ -57,6 +60,11 @@ const ModalForm: FC<ModalFormProps> = ({
               <Button type="submit" variant="contained" disabled={!isValid}>
                 {initialValues?.name ? "Save" : "Add"}
               </Button>
+              {initialValues?.name && (
+                <Button color="error" variant="outlined" onClick={handleDelete}>
+                  Delete
+                </Button>
+              )}
               <Button variant="outlined" color="info" onClick={closeModal}>
                 Cancel
               </Button>

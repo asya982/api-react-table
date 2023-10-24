@@ -12,7 +12,11 @@ export const tableAPI = {
     return baseRequest(() => axiosInstance.post("table/", data));
   },
 
-  async updateContact(data: Partial<Contact>, id:number) {
-    return baseRequest(() => axiosInstance.put(`table/${id}`, data));
+  async updateContact(data: Partial<Contact>, id: number) {
+    return baseRequest(() => axiosInstance.patch(`table/${id}/`, data));
+  },
+
+  async deleteContact(id: number) {
+    return baseRequest(() => axiosInstance.delete(`table/${id}/`));
   },
 };
