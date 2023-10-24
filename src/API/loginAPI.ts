@@ -1,5 +1,5 @@
 import { axiosInstance, baseRequest } from ".";
-import { LoginForm } from "../components/LoginPage/LoginPage";
+import { LoginForm } from "../type";
 
 export const loginAPI = {
   async login(data: LoginForm) {

@@ -3,11 +3,12 @@
     height: 100vh;
     flex-direction: column;
     width: 100%;
+    gap: 10px;
+    padding: 10px 0;
 }
 
 .mainPage header {
     display: flex;
-    height: 30vh;
     justify-content: space-between;
     padding: 10px 20px;
 }

@@ -8,8 +8,16 @@ import {
   TableRow,
 } from "@mui/material";
 import { FC } from "react";
+import { TableItemInfo } from "../../../type";
+import TableItem from "./TableItem";
 
-const ApiTable: FC = () => {
+type TableProps = {
+  tableData: TableItemInfo[];
+  setInitialValues: (data: TableItemInfo) => void;
+  setOpen: (value: boolean) => void;
+};
+
+const ApiTable: FC<TableProps> = ({ tableData, setInitialValues, setOpen }) => {
   return (
     <TableContainer component={Paper}>
       <Table stickyHeader sx={{ minWidth: 650 }}>
@@ -20,9 +28,23 @@ const ApiTable: FC = () => {
             <TableCell align="right">Birthday</TableCell>
             <TableCell align="right">Phone</TableCell>
             <TableCell align="right">Adress</TableCell>
+            <TableCell align="right">Edit</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody></TableBody>
+        <TableBody>
+          {tableData.length ? (
+            tableData.map((el, index) => (
+              <TableItem
+                key={index}
+                {...el}
+                setInitialValues={setInitialValues}
+                setOpen={setOpen}
+              />
+            ))
+          ) : (
+            <p>Nothing is here</p>
+          )}
+        </TableBody>
       </Table>
     </TableContainer>
   );

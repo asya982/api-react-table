@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux";
 import LoginPage from "./components/LoginPage/LoginPage";
 import MainPage, { getTableData } from "./components/MainPage/MainPage";
+import Error from "./components/Error/Error";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,12 @@ const router = createBrowserRouter([
         element: <Navigate to="/login" replace={true} />,
       },
       { path: "login", element: <LoginPage /> },
-      { path: "main", element: <MainPage />, loader: getTableData },
+      {
+        path: "main",
+        element: <MainPage />,
+        loader: getTableData,
+        errorElement: <Error />,
+      },
     ],
   },
 ]);

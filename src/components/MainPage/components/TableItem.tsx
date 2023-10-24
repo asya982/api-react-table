@@ -1,30 +1,39 @@
-import { TableCell, TableRow } from "@mui/material";
+import { IconButton, TableCell, TableRow } from "@mui/material";
 import { FC } from "react";
+import {  TableItemInfo } from "../../../type";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 
-type TableItemProps = {
-  id: number;
-  name: string;
-  email: string;
-  birthday_date: string;
-  phone_number: string;
-  address: string;
+type HelperProps = {
+  setInitialValues: (data: TableItemInfo) => void;
+  setOpen: (value: boolean) => void;
 };
 
-const TableItem: FC<TableItemProps> = ({
+const TableItem: FC<TableItemInfo & HelperProps> = ({
   id,
   name,
   email,
   birthday_date,
   phone_number,
   address,
+  setInitialValues,
+  setOpen,
 }) => {
+  const openModal = () => {
+    setOpen(true);
+    setInitialValues({ name, email, birthday_date, address, phone_number, id });
+  };
   return (
     <TableRow hover>
       <TableCell>{name}</TableCell>
-      <TableCell>{email}</TableCell>
-      <TableCell>{birthday_date}</TableCell>
-      <TableCell>{phone_number}</TableCell>
-      <TableCell>{address}</TableCell>
+      <TableCell align="right">{email}</TableCell>
+      <TableCell align="right">{birthday_date}</TableCell>
+      <TableCell align="right">{phone_number}</TableCell>
+      <TableCell align="right">{address}</TableCell>
+      <TableCell align="right">
+        <IconButton onClick={openModal}>
+          <EditNoteIcon />
+        </IconButton>
+      </TableCell>
     </TableRow>
   );
 };

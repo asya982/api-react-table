@@ -7,11 +7,8 @@ import { loginAPI } from "../../API/loginAPI";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/loginReducer";
-
-export type LoginForm = {
-  username: string;
-  password: string;
-};
+import { LoginForm } from "../../type";
+import { AutoAwesomeMosaicOutlined } from "@mui/icons-material";
 
 const LoginPage: FC = () => {
   const [errors, setErrors] = useState("");
@@ -39,7 +36,9 @@ const LoginPage: FC = () => {
     <Formik initialValues={initialValues} onSubmit={submitForm}>
       {({ isValid }) => (
         <Form className={styles.form}>
-          <Typography align="center">Welcome back!</Typography>
+          <Typography align="center">
+            Welcome back! <AutoAwesomeMosaicOutlined color="secondary" />
+          </Typography>
           <CustomInput label="Username" name="username" required={true} />
           <CustomInput
             label="Password"

@@ -8,9 +8,17 @@ type InputProps = {
   label: string;
   required?: boolean;
   icon?: any;
+  error?: string;
 };
 
-const CustomInput: FC<InputProps> = ({ type, label, required, name, icon }) => {
+const CustomInput: FC<InputProps> = ({
+  type,
+  label,
+  required,
+  name,
+  icon,
+  error,
+}) => {
   const [field, meta] = useField(name);
   return (
     <Field
@@ -25,8 +33,8 @@ const CustomInput: FC<InputProps> = ({ type, label, required, name, icon }) => {
         ),
       }}
       fullWidth
-      error={meta.touched && !!meta.error}
-      helperText={meta.touched && meta.error}
+      error={(meta.touched && !!meta.error) || Boolean(error)}
+      helperText={(meta.touched && meta.error) || error}
     />
   );
 };
